@@ -14,26 +14,41 @@ const onClickadd = () => {
             inputArea.removeChild(inputArea.firstChild);
         }
 
+        const toHalfWidth = str => {
+            return str.replace(/[\uFF01-\uFF5E]/g, ch => {
+              return String.fromCharCode(ch.charCodeAt(0) - 0xFEE0);
+            });
+        };
+        
         for(let i = 0; i < myHistory.length; i++) {
-            itemText = myHistory[i];
+            const itemText = myHistory[i];
             const listItem = document.createElement('li');
-            listItem.textContent = itemText;
+            const half = toHalfWidth(itemText);
+            listItem.textContent = half;
             inputArea.appendChild(listItem);
         }
     } 
     inputOrder.focus();   
 }
 
-const updateList = (asc) => {
+const updateList = asc => {
     while(inputArea.firstChild){
         inputArea.removeChild(inputArea.firstChild);
     }
+
+    const toHalfWidth = str => {
+        return str.replace(/[\uFF01-\uFF5E]/g, ch => {
+          return String.fromCharCode(ch.charCodeAt(0) - 0xFEE0);
+        });
+    };
+
+    const toHalf = half => toHalfWidth(half);
     
     for(let i = 0; i < asc.length; i++) {
-    ascText =  asc[i]
-    const listItem = document.createElement('li');
-    listItem.textContent = ascText;
-    inputArea.appendChild(listItem);
+        const ascText = toHalf(asc[i]);
+        const listItem = document.createElement('li');
+        listItem.textContent = ascText;
+        inputArea.appendChild(listItem);
     }
 }
 
